@@ -1,0 +1,24 @@
+{
+  "visual": {
+    "name": "scheduleView",
+    "displayName": "ScheduleView",
+    "guid": "PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051",
+    "visualClassName": "Visual",
+    "version": "1.0.0",
+    "description": "",
+    "supportUrl": "",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "1.3.0",
+  "author": {
+    "name": "",
+    "email": ""
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [],
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": "dependencies.json"
+}

@@ -1,0 +1,120 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Name",
+      "kind": "Grouping",
+      "name": "Name"
+    },
+	    {
+      "displayName": "Type",
+      "kind": "Grouping",
+      "name": "Type"
+    },
+	    {
+      "displayName": "Start",
+      "kind": "Grouping",
+      "name": "Start"
+    },
+	    {
+      "displayName": "End",
+      "kind": "Grouping",
+      "name": "End"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+              "select": [
+                { "for": { "in": "Name" } },
+				{ "for": { "in": "Type" } },
+			    { "for": { "in": "Start" } },
+				{ "for": { "in": "End" } }
+              ],
+              "dataReductionAlgorithm": {
+                "top": { }
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "png",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "rcv_script": {
+      "properties": {
+        "provider": {
+          "type": { "text": true }
+        },
+        "source": {
+          "type": {
+            "scripting": { "source": true }
+          }
+        }
+      }
+    },
+    "settings": {
+      "displayName": "Settings",
+      "description": "Schedule view settings",
+      "properties": {
+        "colorPalette": {
+          "displayName": "Color palette",
+          "description": "Select brewe color palette",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "Accent",
+                "value": "Accent"
+              },
+              {
+                "displayName": "Dark2",
+                "value": "Dark2"
+              },
+              {
+                "displayName": "Paired",
+                "value": "Paired"
+              },
+              {
+                "displayName": "Pastel1",
+                "value": "Pastel1"
+              },
+              {
+                "displayName": "Pastel2",
+                "value": "Pastel2"
+              },
+              {
+                "displayName": "Set1",
+                "value": "Set1"
+              },
+              {
+                "displayName": "Set2",
+                "value": "Set2"
+              },
+              {
+                "displayName": "Set3",
+                "value": "Set3"
+              }
+            ]
+          }
+        }
+      }
+    }
+    
+  },
+ 
+  "suppressDefaultTitle": true
+}

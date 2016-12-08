@@ -1,0 +1,14 @@
+{
+  "cranPackages": [
+    {
+      "name": "ggplot2",
+      "displayName": "GG Plot 2",
+      "url": "https://cran.r-project.org/web/packages/ggplot2/index.html"
+    },
+	{
+      "name": "gridExtra",
+      "displayName": "Grid Extra",
+      "url": "https://cran.r-project.org/web/packages/gridExtra/index.html"
+    }  
+  ]
+}
