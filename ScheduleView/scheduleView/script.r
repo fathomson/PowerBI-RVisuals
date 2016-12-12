@@ -69,13 +69,13 @@ input_valid <- TRUE
 dates_valid <- TRUE
 message <- ""
 
-if (!exists("Name")) {
+if (!exists("Resource")) {
   input_valid <- FALSE
-  message <- paste(message, "Name ")
+  message <- paste(message, "Resource ")
 }
-if (!exists("Type")) {
+if (!exists("User")) {
   input_valid <- FALSE
-  message <- paste(message, "Type ")
+  message <- paste(message, "User ")
 }
 if (!exists("Start")) {
   input_valid <- FALSE
@@ -86,18 +86,23 @@ if (!exists("End")) {
   message <- paste(message, "End ")
 }
 
+
+
+
+
 if (input_valid) {
   # Assign columns to dataset
-  dataset <- cbind(Name, Type, Start, End)
+  dataset <- cbind(Resource, User, Start, End)
   # Rename columns
-  colnames(dataset) <- c("Name", "Type", "Start", "End")
+  colnames(dataset) <- c("Resource", "User", "Start", "End")
   # Remvoe NA's
   dataset <- na.omit(dataset)
   dates_valid <-   (dateInCorrectFormat(dataset$Start[1]) &
                       dateInCorrectFormat(dataset$End[1]))
 } else {
   dates_valid <- FALSE
-  showErrorMessageToUser(paste("All four required, please add: ", message))
+  plot.new()
+  #showErrorMessageToUser(paste("All four fields required, please add: ", message))
 }
 
 palleteType = "rainbow"
@@ -105,6 +110,7 @@ if(exists("settings_legend_params_palleteType"))
   palleteType = settings_legend_params_palleteType 
 
 ############ INPUT / DATE VALIDATION #########
+if(input_valid){
 
 if (dates_valid) {
   
@@ -118,16 +124,14 @@ if (dates_valid) {
     as.POSIXct(dataset$Start, format = "%Y-%m-%dT%H:%M:%OS")
   dataset$End <-
     as.POSIXct(dataset$End,  format = "%Y-%m-%dT%H:%M:%OS")
-  ggplot(dataset, aes(x = Start, y = Name, color = Type)) +
-    geom_segment(aes(
-      x = Start,
-      xend = End,
-      y = Name,
-      yend = Name
-    ), size = 15) +
-    scale_colour_discrete(guide = guide_legend(override.aes = list(size =
-                                                                     10))) +
-    theme_bw()+ scale_colour_brewer(palette = settings_colorPalette)
+  ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
+    geom_segment(aes(x = Start, xend = End,y = Resource,yend = Resource), size = 15) +
+    scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
+    xlab("Time") +
+    ylab(names(Resource)) +
+    labs(color=names(User))+
+    theme_bw() + 
+    scale_colour_brewer(palette = settings_colorPalette)
   
   
   
@@ -138,4 +142,5 @@ if (dates_valid) {
       More dateformats will be supported in newer version"
     )
     )
+}
 }

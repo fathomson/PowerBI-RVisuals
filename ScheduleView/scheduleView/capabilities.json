@@ -1,14 +1,14 @@
 {
   "dataRoles": [
     {
-      "displayName": "Name",
+      "displayName": "Resource",
       "kind": "Grouping",
-      "name": "Name"
+      "name": "Resource"
     },
 	    {
-      "displayName": "Type",
+      "displayName": "User",
       "kind": "Grouping",
-      "name": "Type"
+      "name": "User"
     },
 	    {
       "displayName": "Start",
@@ -23,15 +23,18 @@
   ],
   "dataViewMappings": [
     {
+       "conditions": [
+          { "Resource": { "max": 1 }, "User": { "max": 1 }, "Start": { "max": 1 }, "End": { "max": 1 } }
+      ],
       "scriptResult": {
         "dataInput": {
           "table": {
             "rows": {
               "select": [
-                { "for": { "in": "Name" } },
-				{ "for": { "in": "Type" } },
-			    { "for": { "in": "Start" } },
-				{ "for": { "in": "End" } }
+                { "for": { "in": "Resource" } },
+                { "for": { "in": "User" } },
+                { "for": { "in": "Start" } },
+                { "for": { "in": "End" } }
               ],
               "dataReductionAlgorithm": {
                 "top": { }
