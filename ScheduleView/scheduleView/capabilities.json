@@ -76,39 +76,39 @@
       "properties": {
         "colorPalette": {
           "displayName": "Color palette",
-          "description": "Select brewe color palette",
+          "description": "Select brewer color palette",
           "type": {
             "enumeration": [
               {
-                "displayName": "Accent",
+                "displayName": "Spring",
                 "value": "Accent"
               },
               {
-                "displayName": "Dark2",
+                "displayName": "Vintage",
                 "value": "Dark2"
               },
               {
-                "displayName": "Paired",
+                "displayName": "Green and blue",
                 "value": "Paired"
               },
               {
-                "displayName": "Pastel1",
+                "displayName": "Vintage light",
                 "value": "Pastel1"
               },
               {
-                "displayName": "Pastel2",
+                "displayName": "Modern light",
                 "value": "Pastel2"
               },
               {
-                "displayName": "Set1",
+                "displayName": "Retro light",
                 "value": "Set1"
               },
               {
-                "displayName": "Set2",
+                "displayName": "Retro",
                 "value": "Set2"
               },
               {
-                "displayName": "Set3",
+                "displayName": "Modern",
                 "value": "Set3"
               }
             ]

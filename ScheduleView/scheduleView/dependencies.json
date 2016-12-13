@@ -6,9 +6,19 @@
       "url": "https://cran.r-project.org/web/packages/ggplot2/index.html"
     },
 	{
+      "name": "grid",
+      "displayName": "Grid",
+      "url": "https://cran.r-project.org/web/packages/grid/index.html"
+    },
+	{
       "name": "gridExtra",
       "displayName": "Grid Extra",
       "url": "https://cran.r-project.org/web/packages/gridExtra/index.html"
-    }  
+    }  ,
+	{
+      "name": "wesanderson",
+      "displayName": "A Wes Anderson Palette Generator",
+      "url": "https://cran.r-project.org/web/packages/wesanderson/index.html"
+    }    
   ]
 }
