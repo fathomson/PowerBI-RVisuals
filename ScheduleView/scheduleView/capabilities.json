@@ -74,6 +74,22 @@
       "displayName": "Settings",
       "description": "Schedule view settings",
       "properties": {
+        "orientation": {
+          "displayName": "Orientation",
+          "description": "Visual orientation",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "Horizontal",
+                "value": "horizontal"
+              },
+              {
+                "displayName": "Vertical",
+                "value": "vertical"
+              }
+            ]
+          }
+        },
         "colorPalette": {
           "displayName": "Color palette",
           "description": "Select brewer color palette",

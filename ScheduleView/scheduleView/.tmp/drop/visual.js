@@ -126,6 +126,7 @@ var powerbi;
                      */
                     Visual.prototype.updateObjects = function (objects) {
                         this.settings = {
+                            orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'orientation', "horizontal"),
                             colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPallette', "Set1")
                         };
                     };
@@ -144,6 +145,7 @@ var powerbi;
                                 objectEnumeration.push({
                                     objectName: objectName,
                                     properties: {
+                                        orientation: this.settings.orientation,
                                         colorPalette: this.settings.colorPalette,
                                     },
                                     selector: null

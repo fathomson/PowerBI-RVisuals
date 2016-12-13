@@ -83,7 +83,7 @@ if (!exists("Start")) {
 }
 if (!exists("End")) {
   input_valid <- FALSE
-  message <- paste(message, "End ")
+  message <- paste(message, "End " + settings_orientation)
 }
 
 
@@ -105,9 +105,7 @@ if (input_valid) {
   #showErrorMessageToUser(paste("All four fields required, please add: ", message))
 }
 
-palleteType = "rainbow"
-if(exists("settings_legend_params_palleteType"))
-  palleteType = settings_legend_params_palleteType 
+
 
 ############ INPUT / DATE VALIDATION #########
 if(input_valid){
@@ -119,19 +117,35 @@ if (dates_valid) {
     settings_colorPalette = "Set1";
   }
   
+  if (!exists("settings_orientation"))
+  {
+    settings_orientation= "horizontal";
+  }
   
   dataset$Start <-
     as.POSIXct(dataset$Start, format = "%Y-%m-%dT%H:%M:%OS")
   dataset$End <-
     as.POSIXct(dataset$End,  format = "%Y-%m-%dT%H:%M:%OS")
+  
+  if(settings_orientation == "horizontal"){
   ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
-    geom_segment(aes(x = Start, xend = End,y = Resource,yend = Resource), size = 15) +
+    geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = 15) +
     scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
     xlab("Time") +
     ylab(names(Resource)) +
     labs(color=names(User))+
     theme_bw() + 
     scale_colour_brewer(palette = settings_colorPalette)
+  } else {
+    ggplot(dataset, aes(x = Resource, y = Start, color = User)) +
+      geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = 15) +
+      scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
+      ylab("Time") +
+      xlab(names(Resource)) +
+      labs(color=names(User))+
+      theme_bw() + 
+      scale_colour_brewer(palette = settings_colorPalette)
+  }
   
   
   
