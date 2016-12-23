@@ -75,6 +75,7 @@ module powerbi.extensibility.visual {
             let dataView: DataView = dataViews[0];
             if (!dataView || !dataView.metadata)
                 return;
+
             this.updateObjects(dataView.metadata.objects);
 
             let imageUrl: string = null;
@@ -106,8 +107,8 @@ module powerbi.extensibility.visual {
          */
         public updateObjects(objects: DataViewObjects) {
             this.settings = <VisualSettings>{
-                orientation: getValue<string>(objects, 'settings', 'orientation', "horizontal"),
-                colorPalette: getValue<string>(objects, 'settings', 'colorPallette', "Set1")
+                orientation: getValue<string>(objects, 'settings', 'orientation', 'horizontal'),
+                colorPalette: getValue<string>(objects, 'settings', 'colorPallette', 'Set1')
             };
   
         }

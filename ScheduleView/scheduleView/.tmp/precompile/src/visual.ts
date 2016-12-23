@@ -75,6 +75,7 @@ module powerbi.extensibility.visual.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051 
             let dataView: DataView = dataViews[0];
             if (!dataView || !dataView.metadata)
                 return;
+
             this.updateObjects(dataView.metadata.objects);
 
             let imageUrl: string = null;
@@ -106,8 +107,8 @@ module powerbi.extensibility.visual.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051 
          */
         public updateObjects(objects: DataViewObjects) {
             this.settings = <VisualSettings>{
-                orientation: getValue<string>(objects, 'settings', 'orientation', "horizontal"),
-                colorPalette: getValue<string>(objects, 'settings', 'colorPallette', "Set1")
+                orientation: getValue<string>(objects, 'settings', 'orientation', 'horizontal'),
+                colorPalette: getValue<string>(objects, 'settings', 'colorPallette', 'Set1')
             };
   
         }

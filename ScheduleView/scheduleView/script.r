@@ -30,6 +30,7 @@ libraryRequireInstall("ggplot2")
 libraryRequireInstall("grid")
 libraryRequireInstall("gridExtra")
 libraryRequireInstall("wesanderson")
+libraryRequireInstall("RColorBrewer")
 
 ############ INTERNAL FUNCTIONS #########
 
@@ -98,7 +99,7 @@ if (input_valid) {
   # Remvoe NA's
   dataset <- na.omit(dataset)
   dates_valid <-   (dateInCorrectFormat(dataset$Start[1]) &
-                      dateInCorrectFormat(dataset$End[1]))
+                      dateInCorrectFormat(dataset$End[2]))
 } else {
   dates_valid <- FALSE
   plot.new()
@@ -127,15 +128,22 @@ if (dates_valid) {
   dataset$End <-
     as.POSIXct(dataset$End,  format = "%Y-%m-%dT%H:%M:%OS")
   
+  colourCount = length(unique(dataset$User))
+  getPalette = colorRampPalette(brewer.pal(9, settings_colorPalette))
+  
+  colourCount = length(unique(dataset$User))
+  #arSize = max((dev.size()[2], 15))
+  
   if(settings_orientation == "horizontal"){
-  ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
-    geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = 15) +
-    scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
-    xlab("Time") +
-    ylab(names(Resource)) +
-    labs(color=names(User))+
-    theme_bw() + 
-    scale_colour_brewer(palette = settings_colorPalette)
+    ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
+      geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = 15) +
+      scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
+      xlab("Time") +
+      ylab(names(Resource)) +
+      labs(color=names(User))+
+      theme_bw()  +
+      scale_colour_manual(values = getPalette(colourCount))
+
   } else {
     ggplot(dataset, aes(x = Resource, y = Start, color = User)) +
       geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = 15) +
@@ -144,17 +152,16 @@ if (dates_valid) {
       xlab(names(Resource)) +
       labs(color=names(User))+
       theme_bw() + 
-      scale_colour_brewer(palette = settings_colorPalette)
+      scale_colour_manual(values = getPalette(colourCount))
   }
-  
   
   
 } else {
   showErrorMessageToUser(
-    paste(
-      "Start and/or End date incorrectly formatted, required format: %Y-%m-%dT%H:%M:%OS\n
+    paste("Start and/or End date incorrectly formatted, required format: %Y-%m-%dT%H:%M:%OS\n
       More dateformats will be supported in newer version"
     )
     )
 }
 }
+  
