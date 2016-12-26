@@ -90,48 +90,50 @@
             ]
           }
         },
-        "colorPalette": {
+         "colorPalette": {
           "displayName": "Color palette",
           "description": "Select brewer color palette",
           "type": {
             "enumeration": [
-              {
-                "displayName": "Spring",
-                "value": "Accent"
-              },
-              {
-                "displayName": "Vintage",
-                "value": "Dark2"
-              },
-              {
-                "displayName": "Green and blue",
-                "value": "Paired"
-              },
-              {
-                "displayName": "Vintage light",
-                "value": "Pastel1"
-              },
-              {
-                "displayName": "Modern light",
-                "value": "Pastel2"
-              },
-              {
-                "displayName": "Retro light",
-                "value": "Set1"
-              },
-              {
-                "displayName": "Retro",
-                "value": "Set2"
-              },
-              {
-                "displayName": "Modern",
-                "value": "Set3"
-              }
+              { 
+                 "displayName": "Spring", 
+                 "value": "Accent" 
+               }, 
+               { 
+                 "displayName": "Vintage", 
+                 "value": "Dark2" 
+               }, 
+               { 
+                 "displayName": "Green and blue", 
+                 "value": "Paired" 
+               }, 
+               { 
+                 "displayName": "Vintage light", 
+                 "value": "Pastel1" 
+               }, 
+               { 
+                 "displayName": "Modern light", 
+                 "value": "Pastel2" 
+               }, 
+               { 
+                 "displayName": "Retro light", 
+                 "value": "Set1" 
+               }, 
+               { 
+                 "displayName": "Retro", 
+                 "value": "Set2" 
+               }, 
+               { 
+                 "displayName": "Modern", 
+                 "value": "Set3" 
+               } 
+
             ]
           }
         }
-      }
-    }
+      
+          }
+        }
     
   },
  

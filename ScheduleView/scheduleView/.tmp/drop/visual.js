@@ -91,6 +91,10 @@ var powerbi;
                         this.imageElement = document.createElement('img');
                         this.imageElement.className = 'rcv_autoScaleImage';
                         this.imageDiv.appendChild(this.imageElement);
+                        this.settings = {
+                            orientation: "horizontal",
+                            colorPalette: "Set1"
+                        };
                     }
                     Visual.prototype.update = function (options) {
                         var dataViews = options.dataViews;
@@ -99,7 +103,11 @@ var powerbi;
                         var dataView = dataViews[0];
                         if (!dataView || !dataView.metadata)
                             return;
-                        this.updateObjects(dataView.metadata.objects);
+                        //this.updateObjects(dataView.metadata.objects);
+                        this.settings = {
+                            orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
+                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
+                        };
                         var imageUrl = null;
                         if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
                             imageUrl = "data:image/png;base64," + dataView.scriptResult.payloadBase64;
@@ -127,7 +135,7 @@ var powerbi;
                     Visual.prototype.updateObjects = function (objects) {
                         this.settings = {
                             orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'orientation', 'horizontal'),
-                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPallette', 'Set1')
+                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPalette', 'Set1')
                         };
                     };
                     /**
@@ -146,7 +154,7 @@ var powerbi;
                                     objectName: objectName,
                                     properties: {
                                         orientation: this.settings.orientation,
-                                        colorPalette: this.settings.colorPalette,
+                                        colorPalette: this.settings.colorPalette
                                     },
                                     selector: null
                                 });

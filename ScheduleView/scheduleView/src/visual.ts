@@ -64,6 +64,13 @@ module powerbi.extensibility.visual {
             this.imageElement.className = 'rcv_autoScaleImage';
 
             this.imageDiv.appendChild(this.imageElement);
+
+
+
+            this.settings = <VisualSettings>{
+                orientation: "horizontal",
+                colorPalette: "Set1"
+            };
         }
 
         public update(options: VisualUpdateOptions) {
@@ -76,7 +83,13 @@ module powerbi.extensibility.visual {
             if (!dataView || !dataView.metadata)
                 return;
 
-            this.updateObjects(dataView.metadata.objects);
+            //this.updateObjects(dataView.metadata.objects);
+
+
+            this.settings = <VisualSettings>{
+                orientation: getValue<string>(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
+                 colorPalette: getValue<string>(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
+            };
 
             let imageUrl: string = null;
             if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
@@ -106,9 +119,10 @@ module powerbi.extensibility.visual {
          * In this code we get the property value from the objects (and have a default value in case the property is undefined)
          */
         public updateObjects(objects: DataViewObjects) {
+        
             this.settings = <VisualSettings>{
                 orientation: getValue<string>(objects, 'settings', 'orientation', 'horizontal'),
-                colorPalette: getValue<string>(objects, 'settings', 'colorPallette', 'Set1')
+                colorPalette: getValue<string>(objects, 'settings', 'colorPalette', 'Set1')
             };
   
         }
@@ -130,7 +144,7 @@ module powerbi.extensibility.visual {
                         objectName: objectName,
                         properties: {
                             orientation: this.settings.orientation,
-                            colorPalette: this.settings.colorPalette,
+                            colorPalette: this.settings.colorPalette
                         },
                         selector: null
                     });
