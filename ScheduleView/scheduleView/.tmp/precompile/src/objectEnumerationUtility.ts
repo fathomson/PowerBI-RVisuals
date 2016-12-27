@@ -1,5 +1,5 @@
 module powerbi.extensibility.visual.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051  {
-    export function getValue<T>(objects: DataViewObjects, objectName: string, propertyName: string, defaultValue: T ): T {
+     export function getValue<T>(objects: DataViewObjects, objectName: string, propertyName: string, defaultValue: T ): T {
         if(objects) {
             let object = objects[objectName];
             if(object) {
@@ -11,6 +11,7 @@ module powerbi.extensibility.visual.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051 
         }
         return defaultValue;
     }
+
 
     export function getFillValue(objects: DataViewObjects, objectName: string, propertyName: string, defaultValue: string ): string {
         if(objects) {
