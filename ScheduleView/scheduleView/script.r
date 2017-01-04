@@ -63,6 +63,20 @@ dateInCorrectFormat <- function(date) {
 }
 
 
+getSegmentSize = function(numCols, numRows, orientation = "horizontal", maxW = 25, minW = 1)
+{
+  convFactor = 20 # unit conversion
+  hw = par()$din
+  if(orientation == "horizontal")
+    segSize = hw[2]/numCols
+  else
+    segSize = 0.5* hw[1]/numRows # take legend into account 
+  
+  segSize = min(max(segSize*convFactor, minW),maxW)
+  
+  return(segSize)
+}
+
 
 ############ INPUT / DATE VALIDATION #########
 
@@ -134,9 +148,12 @@ if (dates_valid) {
   colourCount = length(unique(dataset$User))
   #arSize = max((dev.size()[2], 15))
   
+  segSize = getSegmentSize(length(unique(dataset$Resource)), length(unique(dataset$User)), orientation = settings_orientation)
+  
+  
   if(settings_orientation == "horizontal"){
     ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
-      geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = 15) +
+      geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = segSize) +
       scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       xlab("Time") +
       ylab(names(Resource)) +
@@ -146,7 +163,7 @@ if (dates_valid) {
 
   } else {
     ggplot(dataset, aes(x = Resource, y = Start, color = User)) +
-      geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = 15) +
+      geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = segSize) +
       scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       ylab("Time") +
       xlab(names(Resource)) +
