@@ -211,13 +211,11 @@ if (dates_valid) {
   colourCount <- length(unique(dataset$User))
   getPalette <- colorRampPalette(brewer.pal(8, settings_colorPalette))
   
-  #arSize = max((dev.size()[2], 15))
-  
   segSize = getSegmentSize(length(unique(dataset$Resource)), length(unique(dataset$User)), orientation = settings_orientation)
   
   dataset <- sortDataset(dataset, sorting = settings_sorting)
   
-  levels(dataset$User) <- cutStr2Show(levels(dataset$User), abbrTo = 5)
+  dataset$User <- abbreviate(dataset$User, 30)
 
   if(settings_orientation == "horizontal"){
     ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
