@@ -92,6 +92,7 @@ var powerbi;
                         this.imageElement.className = 'rcv_autoScaleImage';
                         this.imageDiv.appendChild(this.imageElement);
                         this.settings = {
+                            sorting: "az",
                             orientation: "horizontal",
                             colorPalette: "Set1"
                         };
@@ -105,6 +106,7 @@ var powerbi;
                             return;
                         //this.updateObjects(dataView.metadata.objects);
                         this.settings = {
+                            sorting: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'sorting', 'az'),
                             orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
                             colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
                         };
@@ -134,6 +136,7 @@ var powerbi;
                      */
                     Visual.prototype.updateObjects = function (objects) {
                         this.settings = {
+                            sorting: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'sorting', 'az'),
                             orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'orientation', 'horizontal'),
                             colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPalette', 'Set1')
                         };
@@ -153,6 +156,7 @@ var powerbi;
                                 objectEnumeration.push({
                                     objectName: objectName,
                                     properties: {
+                                        sorting: this.settings.sorting,
                                         orientation: this.settings.orientation,
                                         colorPalette: this.settings.colorPalette
                                     },
@@ -180,7 +184,7 @@ var powerbi;
                 name: 'PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051',
                 displayName: 'ScheduleView',
                 class: 'Visual',
-                version: '1.0.0',
+                version: '1.0.1',
                 apiVersion: '1.3.0',
                 create: function (options) { return new powerbi.extensibility.visual.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.Visual(options); },
                 custom: true

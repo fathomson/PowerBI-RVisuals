@@ -28,6 +28,7 @@ module powerbi.extensibility.visual {
     // Below is a snippet of a definition for an object which will contain the property values
     // selected by the users
     interface VisualSettings {
+        sorting: string;
         orientation: string;
         colorPalette: string;
     }
@@ -68,6 +69,7 @@ module powerbi.extensibility.visual {
 
 
             this.settings = <VisualSettings>{
+                sorting: "az",
                 orientation: "horizontal",
                 colorPalette: "Set1"
             };
@@ -87,8 +89,9 @@ module powerbi.extensibility.visual {
 
 
             this.settings = <VisualSettings>{
+                sorting: getValue<string>(dataView.metadata.objects, 'settings', 'sorting', 'az'),
                 orientation: getValue<string>(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
-                 colorPalette: getValue<string>(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
+                colorPalette: getValue<string>(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
             };
 
             let imageUrl: string = null;
@@ -121,6 +124,7 @@ module powerbi.extensibility.visual {
         public updateObjects(objects: DataViewObjects) {
         
             this.settings = <VisualSettings>{
+                sorting: getValue<string>(objects, 'settings', 'sorting', 'az'),
                 orientation: getValue<string>(objects, 'settings', 'orientation', 'horizontal'),
                 colorPalette: getValue<string>(objects, 'settings', 'colorPalette', 'Set1')
             };
@@ -143,6 +147,7 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
+                            sorting: this.settings.sorting,
                             orientation: this.settings.orientation,
                             colorPalette: this.settings.colorPalette
                         },
