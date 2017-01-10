@@ -8,9 +8,9 @@
 #
 # CREATION DATE: 12/08/2016
 #
-# LAST UPDATE: 01/04/2017
+# LAST UPDATE: 01/10/2017
 #
-# VERSION: 0.0.2
+# VERSION: 1.0.0
 #
 # R VERSION TESTED: 3.3.2
 #
@@ -82,24 +82,41 @@ getSegmentSize = function(numCols, numRows, orientation = "horizontal", maxW = 2
 
 # Sort the dataset. A-Z (az), Z-A (za), total duration (total_duration) and user count (user_count)
 
-sortDataset = function(dataset, sorting = "az")
+sortDataset = function(dataset, sorting = "az", orientation="horizontal")
 {
   switch(sorting,
          "az" = {
-           dataset$Resource  <- factor(dataset$Resource, levels= dataset[rev(order(dataset$Resource)), "Resource"])
+           if(settings_orientation == "horizontal"){
+              dataset$Resource  <- factor(dataset$Resource, levels= dataset[rev(order(dataset$Resource)), "Resource"])
+           } else {
+             dataset$Resource  <- factor(dataset$Resource, levels= dataset[order(dataset$Resource), "Resource"])
+           }
          },
          "za" = {
-           dataset$Resource  <- factor(dataset$Resource, levels= dataset[order(dataset$Resource), "Resource"])
+           if(settings_orientation == "horizontal"){
+             dataset$Resource  <- factor(dataset$Resource, levels= dataset[order(dataset$Resource), "Resource"])
+           } else {
+             dataset$Resource  <- factor(dataset$Resource, levels= dataset[rev(order(dataset$Resource)), "Resource"])
+           }
+        
          },
          "total_duration" = {
            dataset$duration <- difftime(dataset$End, dataset$Start, units="secs")
            dataset$duration[is.na(dataset$duration)] <- 0 
            temp <- dataset %>% group_by(Resource) %>% summarize(t=sum(duration)) %>% arrange(t)
-           dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
+           if(settings_orientation == "horizontal"){
+             dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
+           } else {
+             dataset$Resource  <- factor(dataset$Resource, levels= rev(temp$Resource))
+           }
          },
          "user_count" = {
            temp <- dataset %>% group_by(Resource) %>% summarize(n=n()) %>% arrange(n)
-           dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
+           if(settings_orientation == "horizontal"){
+             dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
+           } else {
+             dataset$Resource  <- factor(dataset$Resource, levels= rev(temp$Resource))
+           }
          })
   return(dataset)
 }
@@ -213,7 +230,7 @@ if (dates_valid) {
   
   segSize = getSegmentSize(length(unique(dataset$Resource)), length(unique(dataset$User)), orientation = settings_orientation)
   
-  dataset <- sortDataset(dataset, sorting = settings_sorting)
+  dataset <- sortDataset(dataset, sorting = settings_sorting, orientation = settings_orientation)
   
   dataset$User <- abbreviate(dataset$User, 30)
 
@@ -222,7 +239,7 @@ if (dates_valid) {
       geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = segSize) +
       scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       xlab("Time") +
-      xlab(cutStr2Show(names(Resource), abbrTo = 30)) +
+      ylab(cutStr2Show(names(Resource), abbrTo = 50)) +
       labs(color=names(User))+
       theme_bw()  +
       scale_colour_manual(values = getPalette(colourCount))
@@ -232,10 +249,11 @@ if (dates_valid) {
       geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = segSize) +
       scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       ylab("Time") +
-      xlab(cutStr2Show(names(Resource), abbrTo = 30)) +
+      xlab(cutStr2Show(names(Resource), abbrTo = 50)) +
       labs(color=names(User))+
       theme_bw() + 
-      scale_colour_manual(values = getPalette(colourCount))
+      scale_colour_manual(values = getPalette(colourCount)) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
   }
   
   
