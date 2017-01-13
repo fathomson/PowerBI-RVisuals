@@ -192,7 +192,7 @@ if (input_valid) {
   # Remvoe NA's
   dataset <- na.omit(dataset)
   dates_valid <-   (dateInCorrectFormat(dataset$Start[1]) &
-                      dateInCorrectFormat(dataset$End[2]))
+                      dateInCorrectFormat(dataset$End[1]))
 } else {
   dates_valid <- FALSE
   plot.new()
@@ -237,17 +237,16 @@ if (dates_valid) {
   if(settings_orientation == "horizontal"){
     ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
       geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = segSize) +
-      scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       xlab("Time") +
       ylab(cutStr2Show(names(Resource), abbrTo = 50)) +
       labs(color=names(User))+
       theme_bw()  +
-      scale_colour_manual(values = getPalette(colourCount))
+      scale_colour_manual(values = getPalette(colourCount)) + 
+      theme(legend.position="right")
 
   } else {
     ggplot(dataset, aes(x = Resource, y = Start, color = User)) +
       geom_segment(aes(x = Resource, xend = Resource, y = Start,yend = End), size = segSize) +
-      scale_colour_discrete(guide = guide_legend(override.aes = list(size = 10))) +
       ylab("Time") +
       xlab(cutStr2Show(names(Resource), abbrTo = 50)) +
       labs(color=names(User))+
