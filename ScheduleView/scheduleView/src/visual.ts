@@ -31,6 +31,7 @@ module powerbi.extensibility.visual {
         sorting: string;
         orientation: string;
         colorPalette: string;
+        legendCols: string;
     }
 
     // To allow this scenario you should first the following JSON definition to the capabilities.json file
@@ -71,7 +72,8 @@ module powerbi.extensibility.visual {
             this.settings = <VisualSettings>{
                 sorting: "az",
                 orientation: "horizontal",
-                colorPalette: "Set1"
+                colorPalette: "Set1",
+                legendCols: "auto"
             };
         }
 
@@ -91,7 +93,8 @@ module powerbi.extensibility.visual {
             this.settings = <VisualSettings>{
                 sorting: getValue<string>(dataView.metadata.objects, 'settings', 'sorting', 'az'),
                 orientation: getValue<string>(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
-                colorPalette: getValue<string>(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
+                colorPalette: getValue<string>(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1'),
+                legendCols: getValue<string>(dataView.metadata.objects, 'settings','legendCols','auto')
             };
 
             let imageUrl: string = null;
@@ -126,7 +129,8 @@ module powerbi.extensibility.visual {
             this.settings = <VisualSettings>{
                 sorting: getValue<string>(objects, 'settings', 'sorting', 'az'),
                 orientation: getValue<string>(objects, 'settings', 'orientation', 'horizontal'),
-                colorPalette: getValue<string>(objects, 'settings', 'colorPalette', 'Set1')
+                colorPalette: getValue<string>(objects, 'settings', 'colorPalette', 'Set1'),
+                legendCols: getValue<string>(objects, 'settings', 'legendCols', 'auto')
             };
   
         }
@@ -149,7 +153,8 @@ module powerbi.extensibility.visual {
                         properties: {
                             sorting: this.settings.sorting,
                             orientation: this.settings.orientation,
-                            colorPalette: this.settings.colorPalette
+                            colorPalette: this.settings.colorPalette,
+                            legendCols: this.settings.legendCols
                         },
                         selector: null
                     });

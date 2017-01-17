@@ -154,12 +154,41 @@
 
             ]
           }
+        },
+        "legendCols": {
+          "displayName": "Legend columns",
+          "description": "# of legend columns",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "auto",
+                "value": "auto"
+              },
+              {
+                "displayName": "1",
+                "value": "one"
+              },
+              {
+                "displayName": "2",
+                "value": "two"
+              },
+              {
+                "displayName": "3",
+                "value": "three"
+              },
+              {
+                "displayName": "4",
+                "value": "four"
+              },
+              {
+                "displayName": "5",
+                "value": "five"
+              }
+            ]
+          }
         }
-
       }
-        }
-    
+    }
   },
- 
   "suppressDefaultTitle": true
 }

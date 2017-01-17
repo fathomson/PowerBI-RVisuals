@@ -94,7 +94,8 @@ var powerbi;
                         this.settings = {
                             sorting: "az",
                             orientation: "horizontal",
-                            colorPalette: "Set1"
+                            colorPalette: "Set1",
+                            legendCols: "auto"
                         };
                     }
                     Visual.prototype.update = function (options) {
@@ -108,7 +109,8 @@ var powerbi;
                         this.settings = {
                             sorting: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'sorting', 'az'),
                             orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'orientation', 'horizontal'),
-                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1')
+                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'colorPalette', 'Set1'),
+                            legendCols: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(dataView.metadata.objects, 'settings', 'legendCols', 'auto')
                         };
                         var imageUrl = null;
                         if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
@@ -138,7 +140,8 @@ var powerbi;
                         this.settings = {
                             sorting: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'sorting', 'az'),
                             orientation: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'orientation', 'horizontal'),
-                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPalette', 'Set1')
+                            colorPalette: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'colorPalette', 'Set1'),
+                            legendCols: PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051.getValue(objects, 'settings', 'legendCols', 'auto')
                         };
                     };
                     /**
@@ -158,7 +161,8 @@ var powerbi;
                                     properties: {
                                         sorting: this.settings.sorting,
                                         orientation: this.settings.orientation,
-                                        colorPalette: this.settings.colorPalette
+                                        colorPalette: this.settings.colorPalette,
+                                        legendCols: this.settings.legendCols
                                     },
                                     selector: null
                                 });
@@ -180,8 +184,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051 = {
-                name: 'PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051',
+            plugins.PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051_DEBUG = {
+                name: 'PBI_CV_658497A5_7E34_4F94_A51F_4E2213BB9051_DEBUG',
                 displayName: 'ScheduleView',
                 class: 'Visual',
                 version: '1.0.0',

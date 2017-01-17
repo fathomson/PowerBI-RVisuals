@@ -8,7 +8,7 @@
 #
 # CREATION DATE: 12/08/2016
 #
-# LAST UPDATE: 01/10/2017
+# LAST UPDATE: 01/17/2017
 #
 # VERSION: 1.0.0
 #
@@ -121,16 +121,16 @@ sortDataset = function(dataset, sorting = "az", orientation="horizontal")
   return(dataset)
 }
 
+# strText = text to modify 
+# strCex = font size 
+# abbrTo = very long string will be abbreviated to "abbrTo" characters
+# isH = "is horizontal" ?
+# maxChar = text smaller than maxChar is replaced by NULL
+# partAvailable = which portion of window is available for text, in [0,1]
 
 cutStr2Show = function(strText, strCex = 0.8, abbrTo = 100, isH = TRUE, maxChar = 0, partAvailable = 1)
 {
-  # strText = text to modify 
-  # strCex = font size 
-  # abbrTo = very long string will be abbreviated to "abbrTo" characters
-  # isH = "is horizontal" ?
-  # maxChar = text smaller than maxChar is replaced by NULL
-  # partAvailable = which portion of window is available for text, in [0,1]
-  
+
   if(is.null(strText))
     return (NULL)
   
@@ -154,6 +154,20 @@ cutStr2Show = function(strText, strCex = 0.8, abbrTo = 100, isH = TRUE, maxChar 
 }
 
 
+# Calculate and return the number of legend columns as selected by the user
+
+getNcolLegend = function(ncols = "auto"){
+  colCount <- 1;
+  switch(ncols,
+        "auto" = { colCount <- ceiling(nrow(unique(User))/nrow(unique(Resource)))},
+        "one" = {colCount <- 1},
+        "two" = {colCount <- 2},
+        "three" = {colCount <- 3},
+        "four" = {colCount <- 4},
+        "five" = {colCount <- 5})
+  return(colCount)
+}
+  
 
 
 
@@ -219,6 +233,9 @@ if (dates_valid) {
   {
     settings_orientation= "horizontal";
   }
+  if(!exists("settings_legendCols")){
+    settings_legendCols = "auto";
+  }
   
   dataset$Start <-
     as.POSIXct(dataset$Start, format = "%Y-%m-%dT%H:%M:%OS")
@@ -233,6 +250,8 @@ if (dates_valid) {
   dataset <- sortDataset(dataset, sorting = settings_sorting, orientation = settings_orientation)
   
   dataset$User <- abbreviate(dataset$User, 30)
+  
+  ncolLegend <- getNcolLegend(ncols = settings_legendCols);
 
   if(settings_orientation == "horizontal"){
     ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
@@ -242,7 +261,7 @@ if (dates_valid) {
       labs(color=names(User))+
       theme_bw()  +
       scale_colour_manual(values = getPalette(colourCount)) + 
-      theme(legend.position="right")
+      theme(legend.direction ="vertical",legend.position = "right") + guides(color=guide_legend(ncol=ncolLegend))
 
   } else {
     ggplot(dataset, aes(x = Resource, y = Start, color = User)) +
@@ -252,7 +271,7 @@ if (dates_valid) {
       labs(color=names(User))+
       theme_bw() + 
       scale_colour_manual(values = getPalette(colourCount)) +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))+ guides(color=guide_legend(ncol=ncolLegend))
   }
   
   
