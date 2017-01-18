@@ -60,6 +60,10 @@ showErrorMessageToUser <- function(message) {
 # TDOD for next version: support multiple date formats
 dateInCorrectFormat <- function(date) {
   d <- try(as.Date(date, format = "%Y-%m-%dT%H:%M:%OS"))
+  if(class(d) == "try-error" | is.na(d)){
+    d <- try(as.POSIXct(date))
+  }
+  
   return (class(d) != "try-error" & !is.na(d))
 }
 
@@ -277,8 +281,8 @@ if (dates_valid) {
   
 } else {
   showErrorMessageToUser(
-    paste("Start and/or End date incorrectly formatted, required format: %Y-%m-%dT%H:%M:%OS\n
-      More dateformats will be supported in newer version"
+    paste0("Unable to parse dates\n
+      dates recieved: Start[1]= ", Start[1], "   End[1]=", End[1]
     )
     )
 }
