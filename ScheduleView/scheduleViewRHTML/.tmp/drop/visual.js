@@ -666,25 +666,7 @@ var powerbi;
             var scheduleViewRHTML20015F17080644B8B68EC99ADAA3E464;
             (function (scheduleViewRHTML20015F17080644B8B68EC99ADAA3E464) {
                 "use strict";
-                // below is a snippet of a definition for an object which will contain the property values
-                // selected by the users
-                /*interface VisualSettings {
-                    lineColor: string;
-                }*/
-                // to allow this scenario you should first the following JSON definition to the capabilities.json file
-                // under the "objects" property:
-                // "settings": {
-                //     "displayName": "Visual Settings",
-                //     "description": "Visual Settings Tooltip",
-                //     "properties": {
-                //         "lineColor": {
-                //         "displayName": "Line Color",
-                //         "type": { "fill": { "solid": { "color": true }}}
-                //         }
-                //     }
-                // }
-                // in order to improve the performance, one can update the <head> only in the initial rendering.
-                // set to 'true' if you are using different packages to create the widgets
+                var DataViewObjectsModule = powerbi.extensibility.utils.dataview.DataViewObject;
                 var updateHTMLHead = false;
                 var renderVisualUpdateType = [
                     powerbi.VisualUpdateType.Resize,
@@ -698,6 +680,12 @@ var powerbi;
                         }
                         this.headNodes = [];
                         this.bodyNodes = [];
+                        this.settings_general = {
+                            sorting: "az",
+                            orientation: "horizontal",
+                            colorPalette: "Set1",
+                            legendCols: "auto"
+                        };
                     }
                     Visual.prototype.update = function (options) {
                         if (!options ||
@@ -710,6 +698,9 @@ var powerbi;
                         }
                         var dataView = options.dataViews[0];
                         this.settings = Visual.parseSettings(dataView);
+                        //RVIZ_IN_PBI_GUIDE:BEGIN:Added to create HTML-based 
+                        this.updateObjects(dataView.metadata.objects);
+                        //RVIZ_IN_PBI_GUIDE:END:Added to create HTML-based 
                         var payloadBase64 = null;
                         if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
                             payloadBase64 = dataView.scriptResult.payloadBase64;
@@ -724,7 +715,6 @@ var powerbi;
                         }
                     };
                     Visual.prototype.onResizing = function (finalViewport) {
-                        /* add code to handle resizing of the view port */
                     };
                     Visual.prototype.injectCodeFromPayload = function (payloadBase64) {
                         // inject HTML from payload, created in R
@@ -770,12 +760,32 @@ var powerbi;
                     Visual.parseSettings = function (dataView) {
                         return scheduleViewRHTML20015F17080644B8B68EC99ADAA3E464.VisualSettings.parse(dataView);
                     };
-                    /**
-                     * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
-                     * objects and properties you want to expose to the users in the property pane.
-                     *
-                     */
+                    Visual.prototype.updateObjects = function (objects) {
+                        this.settings_general = {
+                            sorting: DataViewObjectsModule.getValue(objects, 'sorting', "az"),
+                            orientation: DataViewObjectsModule.getValue(objects, 'orientation', "horizontal"),
+                            colorPalette: DataViewObjectsModule.getValue(objects, 'colorPalette', "Set1"),
+                            legendCols: DataViewObjectsModule.getValue(objects, 'legendCols', "auto")
+                        };
+                    };
                     Visual.prototype.enumerateObjectInstances = function (options) {
+                        var objectName = options.objectName;
+                        var objectEnumeration = [];
+                        switch (objectName) {
+                            case 'settings_general_params':
+                                objectEnumeration.push({
+                                    objectName: objectName,
+                                    properties: {
+                                        sorting: this.settings_general.sorting,
+                                        orientation: this.settings_general.orientation,
+                                        colorPalette: this.settings_general.colorPalette,
+                                        legendCols: this.settings_general.legendCols
+                                    },
+                                    selector: null
+                                });
+                                break;
+                        }
+                        ;
                         return scheduleViewRHTML20015F17080644B8B68EC99ADAA3E464.VisualSettings.enumerateObjectInstances(this.settings || scheduleViewRHTML20015F17080644B8B68EC99ADAA3E464.VisualSettings.getDefault(), options);
                     };
                     return Visual;

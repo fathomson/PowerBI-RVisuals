@@ -61,16 +61,20 @@
     "rcv_script": {
       "properties": {
         "provider": {
-          "type": { "text": true }
+          "type": { 
+			"text": true 
+			}
         },
         "source": {
           "type": {
-            "scripting": { "source": true }
+            "scripting": { 
+				"source": true 
+			}
           }
         }
       }
     },
-    "settings": {
+    "settings_general_params": {
       "displayName": "Settings",
       "description": "Schedule view settings",
       "properties": {

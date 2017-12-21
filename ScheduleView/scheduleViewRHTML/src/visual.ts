@@ -25,39 +25,30 @@
  */
 module powerbi.extensibility.visual {
     "use strict";
-    // below is a snippet of a definition for an object which will contain the property values
-    // selected by the users
-    /*interface VisualSettings {
-        lineColor: string;
-    }*/
 
-    // to allow this scenario you should first the following JSON definition to the capabilities.json file
-    // under the "objects" property:
-    // "settings": {
-    //     "displayName": "Visual Settings",
-    //     "description": "Visual Settings Tooltip",
-    //     "properties": {
-    //         "lineColor": {
-    //         "displayName": "Line Color",
-    //         "type": { "fill": { "solid": { "color": true }}}
-    //         }
-    //     }
-    // }
-
-    // in order to improve the performance, one can update the <head> only in the initial rendering.
-    // set to 'true' if you are using different packages to create the widgets
-    const updateHTMLHead: boolean = false;
+    import DataViewObjectsModule = powerbi.extensibility.utils.dataview.DataViewObject;
+	
+	const updateHTMLHead: boolean = false;
     const renderVisualUpdateType: number[] = [
         VisualUpdateType.Resize,
         VisualUpdateType.ResizeEnd,
         VisualUpdateType.Resize + VisualUpdateType.ResizeEnd
     ];
 
+    interface VisualSettingsGeneralParams {
+        sorting: string;
+        orientation: string;
+        colorPalette: string;
+        legendCols: string;
+    }
+
     export class Visual implements IVisual {
         private rootElement: HTMLElement;
         private headNodes: Node[];
         private bodyNodes: Node[];
         private settings: VisualSettings;
+        private settings_general: VisualSettingsGeneralParams;
+
 
         public constructor(options: VisualConstructorOptions) {
             if (options && options.element) {
@@ -65,9 +56,16 @@ module powerbi.extensibility.visual {
             }
             this.headNodes = [];
             this.bodyNodes = [];
+
+            this.settings_general = <VisualSettingsGeneralParams>{
+                sorting: "az",
+                orientation: "horizontal",
+                colorPalette: "Set1",
+                legendCols: "auto"
+            };
         }
 
-        public update(options: VisualUpdateOptions): void {
+		public update(options: VisualUpdateOptions): void {
 
             if (!options ||
                 !options.type ||
@@ -79,7 +77,9 @@ module powerbi.extensibility.visual {
             }
             const dataView: DataView = options.dataViews[0];
             this.settings = Visual.parseSettings(dataView);
-
+            //RVIZ_IN_PBI_GUIDE:BEGIN:Added to create HTML-based 
+            this.updateObjects(dataView.metadata.objects);
+            //RVIZ_IN_PBI_GUIDE:END:Added to create HTML-based 
             let payloadBase64: string = null;
             if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
                 payloadBase64 = dataView.scriptResult.payloadBase64;
@@ -92,17 +92,16 @@ module powerbi.extensibility.visual {
             } else {
                 this.onResizing(options.viewport);
             }
-        }
+        }	
 
         public onResizing(finalViewport: IViewport): void {
-            /* add code to handle resizing of the view port */
+			
         }
-
-        private injectCodeFromPayload(payloadBase64: string): void {
+		
+		private injectCodeFromPayload(payloadBase64: string): void {
             // inject HTML from payload, created in R
             // the code is injected to the 'head' and 'body' sections.
             // if the visual was already rendered, the previous DOM elements are cleared
-
             ResetInjector();
 
             if (!payloadBase64) {
@@ -149,13 +148,38 @@ module powerbi.extensibility.visual {
             return VisualSettings.parse(dataView) as VisualSettings;
         }
 
-        /** 
-         * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
-         * objects and properties you want to expose to the users in the property pane.
-         * 
-         */
-        public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions):
-            VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
+
+        public updateObjects(objects: DataViewObjects) {
+            
+            this.settings_general = <VisualSettingsGeneralParams>{
+                sorting: DataViewObjectsModule.getValue<string>(objects, 'sorting', "az"),
+                orientation: DataViewObjectsModule.getValue<string>(objects, 'orientation', "horizontal"),
+                colorPalette: DataViewObjectsModule.getValue<string>(objects, 'colorPalette', "Set1"),
+                legendCols: DataViewObjectsModule.getValue<string>(objects, 'legendCols', "auto")
+            };
+
+        }
+
+        public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): 
+			VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
+            let objectName = options.objectName;
+            let objectEnumeration = [];
+
+            switch (objectName) {
+                case 'settings_general_params':
+                    objectEnumeration.push({
+                        objectName: objectName,
+                        properties: {
+                            sorting: this.settings_general.sorting,
+                            orientation: this.settings_general.orientation,
+                            colorPalette: this.settings_general.colorPalette,
+                            legendCols: this.settings_general.legendCols
+                        },
+                        selector: null
+                    });
+                    break;
+            };
+			
             return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
         }
     }

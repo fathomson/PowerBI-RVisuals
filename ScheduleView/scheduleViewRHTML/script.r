@@ -95,14 +95,14 @@ sortDataset = function(dataset, sorting = "az", orientation="horizontal")
 {
   switch(sorting,
          "az" = {
-           if(settings_orientation == "horizontal"){
+           if(settings_sv_orientation == "horizontal"){
               dataset$Resource  <- factor(dataset$Resource, levels= dataset[rev(order(dataset$Resource)), "Resource"])
            } else {
              dataset$Resource  <- factor(dataset$Resource, levels= dataset[order(dataset$Resource), "Resource"])
            }
          },
          "za" = {
-           if(settings_orientation == "horizontal"){
+           if(settings_sv_orientation == "horizontal"){
              dataset$Resource  <- factor(dataset$Resource, levels= dataset[order(dataset$Resource), "Resource"])
            } else {
              dataset$Resource  <- factor(dataset$Resource, levels= dataset[rev(order(dataset$Resource)), "Resource"])
@@ -113,7 +113,7 @@ sortDataset = function(dataset, sorting = "az", orientation="horizontal")
            dataset$duration <- difftime(dataset$End, dataset$Start, units="secs")
            dataset$duration[is.na(dataset$duration)] <- 0 
            temp <- dataset %>% group_by(Resource) %>% summarize(t=sum(duration)) %>% arrange(t)
-           if(settings_orientation == "horizontal"){
+           if(settings_sv_orientation == "horizontal"){
              dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
            } else {
              dataset$Resource  <- factor(dataset$Resource, levels= rev(temp$Resource))
@@ -121,7 +121,7 @@ sortDataset = function(dataset, sorting = "az", orientation="horizontal")
          },
          "user_count" = {
            temp <- dataset %>% group_by(Resource) %>% summarize(n=n()) %>% arrange(n)
-           if(settings_orientation == "horizontal"){
+           if(settings_sv_orientation == "horizontal"){
              dataset$Resource  <- factor(dataset$Resource, levels= temp$Resource)
            } else {
              dataset$Resource  <- factor(dataset$Resource, levels= rev(temp$Resource))
@@ -129,6 +129,7 @@ sortDataset = function(dataset, sorting = "az", orientation="horizontal")
          })
   return(dataset)
 }
+
 
 # strText = text to modify 
 # strCex = font size 
@@ -200,7 +201,7 @@ if (!exists("Start")) {
 }
 if (!exists("End")) {
   input_valid <- FALSE
-  message <- paste(message, "End " + settings_orientation)
+  message <- paste(message, "End " + settings_sv_orientation)
 }
 
 
@@ -228,22 +229,22 @@ if (input_valid) {
 if(input_valid){
 
 if (dates_valid) {
-  if(!exists("settings_sorting"))
+  if(!exists("settings_sv_sorting"))
   {
-    settings_sorting = "az";
+    settings_sv_sorting = "az";
   }
   
-  if (!exists("settings_colorPalette"))
+  if (!exists("settings_sv_colorPalette"))
   {
-    settings_colorPalette = "Set1";
+    settings_sv_colorPalette = "Set1";
   }
   
-  if (!exists("settings_orientation"))
+  if (!exists("settings_sv_orientation"))
   {
-    settings_orientation= "horizontal";
+    settings_sv_orientation= "horizontal";
   }
-  if(!exists("settings_legendCols")){
-    settings_legendCols = "auto";
+  if(!exists("settings_sv_legendCols")){
+    settings_sv_legendCols = "auto";
   }
   
   dataset$Start <-
@@ -252,17 +253,17 @@ if (dates_valid) {
     as.POSIXct(dataset$End,  format = "%Y-%m-%dT%H:%M:%OS")
   
   colourCount <- length(unique(dataset$User))
-  getPalette <- colorRampPalette(brewer.pal(8, settings_colorPalette))
+  getPalette <- colorRampPalette(brewer.pal(8, settings_sv_colorPalette))
   
-  segSize = getSegmentSize(length(unique(dataset$Resource)), length(unique(dataset$User)), orientation = settings_orientation)
+  segSize = getSegmentSize(length(unique(dataset$Resource)), length(unique(dataset$User)), orientation = settings_sv_orientation)
   
-  dataset <- sortDataset(dataset, sorting = settings_sorting, orientation = settings_orientation)
+  dataset <- sortDataset(dataset, sorting = settings_sv_sorting, orientation = settings_sv_orientation)
   
   dataset$User <- abbreviate(dataset$User, 30)
   
-  ncolLegend <- getNcolLegend(ncols = settings_legendCols);
+  ncolLegend <- getNcolLegend(ncols = settings_sv_legendCols);
 
-  if(settings_orientation == "horizontal"){
+  if(settings_sv_orientation == "horizontal"){
       g <- ggplot(dataset, aes(x = Start, y = Resource, color = User)) +
       geom_segment(aes(x = Start, xend = End, y = Resource,yend = Resource), size = segSize) +
       xlab("Time") +
