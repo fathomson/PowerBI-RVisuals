@@ -1,0 +1,27 @@
+{
+  "visual": {
+    "name": "scheduleViewRHTMLCV",
+    "displayName": "scheduleViewRHTMLCV",
+    "guid": "scheduleViewRHTMLCV8BA8C81F62D14A48BC705B95042EB0E3",
+    "visualClassName": "Visual",
+    "version": "1.0.0",
+    "description": "",
+    "supportUrl": "",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "1.10.0",
+  "author": {
+    "name": "",
+    "email": ""
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [
+    "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js"
+  ],
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": "dependencies.json",
+  "stringResources": []
+}
