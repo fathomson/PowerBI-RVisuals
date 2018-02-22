@@ -1,0 +1,338 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Resource",
+      "kind": "Grouping",
+      "name": "Resource"
+    },
+	    {
+      "displayName": "User",
+      "kind": "Grouping",
+      "name": "User"
+    },
+	    {
+      "displayName": "Start",
+      "kind": "Grouping",
+      "name": "Start"
+    },
+	    {
+      "displayName": "End",
+      "kind": "Grouping",
+      "name": "End"
+    },
+    {
+    "displayName": "Tooltips",
+    "kind": "GroupingOrMeasure",
+    "name": "Tooltips"
+  }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        { "Resource": { "max": 1 }, "User": { "max": 1 }, "Start": { "max": 1 }, "End": { "max": 1 }, "Tooltips": { "max": 5 } }
+    ],
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+              "select": [
+                { "for": { "in": "Resource" } },
+                { "for": { "in": "User" } },
+                { "for": { "in": "Start" } },
+                { "for": { "in": "End" } },
+                { "for": { "in": "Tooltips" } }
+              ],
+              "dataReductionAlgorithm": {
+                "top": {}
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "html",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "rcv_script": {
+      "properties": {
+        "provider": {
+          "type": {
+            "text": true
+          }
+        },
+        "source": {
+          "type": {
+            "scripting": {
+              "source": true
+            }
+          }
+        }
+      }
+    },
+    "vizSettings": {
+      "displayName": "Settings",
+      "description": "Schedule view settings",
+      "properties": {
+        "sorting": {
+          "displayName": "Sort resources",
+          "description": "Resource sorting",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "Alphabetical A-Z",
+                "value": "az"
+              },
+              {
+                "displayName": "Alphabetical Z-A",
+                "value": "za"
+              },
+              {
+                "displayName": "By total duration",
+                "value": "total_duration"
+              },
+              {
+                "displayName": "By user count",
+                "value": "user_count"
+              }
+            ]
+          }
+        },
+        "orientation": {
+          "displayName": "Orientation",
+          "description": "Visual orientation",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "Horizontal",
+                "value": "horizontal"
+              },
+              {
+                "displayName": "Vertical",
+                "value": "vertical"
+              }
+            ]
+          }
+        },
+        "colorPalette": {
+          "displayName": "Color palette",
+          "description": "Select brewer color palette",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "Spring",
+                "value": "Accent"
+              },
+              {
+                "displayName": "Vintage",
+                "value": "Dark2"
+              },
+              {
+                "displayName": "Green and blue",
+                "value": "Paired"
+              },
+              {
+                "displayName": "Vintage light",
+                "value": "Pastel1"
+              },
+              {
+                "displayName": "Modern light",
+                "value": "Pastel2"
+              },
+              {
+                "displayName": "Retro light",
+                "value": "Set1"
+              },
+              {
+                "displayName": "Retro",
+                "value": "Set2"
+              },
+              {
+                "displayName": "Modern",
+                "value": "Set3"
+              }
+
+            ]
+          }
+        },
+        "legendCols": {
+          "displayName": "Legend columns",
+          "description": "# of legend columns",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "auto",
+                "value": "auto"
+              },
+              {
+                "displayName": "1",
+                "value": "one"
+              },
+              {
+                "displayName": "2",
+                "value": "two"
+              },
+              {
+                "displayName": "3",
+                "value": "three"
+              },
+              {
+                "displayName": "4",
+                "value": "four"
+              },
+              {
+                "displayName": "5",
+                "value": "five"
+              }
+            ]
+          }
+        }, 
+        "percentile": {
+          "displayName": "Bar width",
+          "type": {
+            "numeric": true
+          }
+        },
+        "abreviateLengthUser": {
+          "displayName": "Abbreviate user name",
+          "description": "Abbreviate long user name",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "100",
+                "value": "100"
+              },
+              {
+                "displayName": "25",
+                "value": "25"
+              },
+              {
+                "displayName": "20",
+                "value": "20"
+              },
+              {
+                "displayName": "12",
+                "value": "12"
+              },
+              {
+                "displayName": "10",
+                "value": "10"
+              },
+              {
+                "displayName": "7",
+                "value": "7"
+              },
+              {
+                "displayName": "5",
+                "value": "5"
+              },
+              {
+                "displayName": "3",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        "abreviateLengthResource": {
+          "displayName": "Abbreviate resource name",
+          "description": "Abbreviate long resource name",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "100",
+                "value": "100"
+              },
+              {
+                "displayName": "25",
+                "value": "25"
+              },
+              {
+                "displayName": "20",
+                "value": "20"
+              },
+              {
+                "displayName": "12",
+                "value": "12"
+              },
+              {
+                "displayName": "10",
+                "value": "10"
+              },
+              {
+                "displayName": "7",
+                "value": "7"
+              },
+              {
+                "displayName": "5",
+                "value": "5"
+              },
+              {
+                "displayName": "3",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        "userFormatX": {
+          "displayName": "Tooltips date format",
+          "description": "Tooltips date format",
+          "type": {
+            "enumeration": [
+              {
+                "displayName": "2001",
+                "value": "%Y"
+              },
+              {
+                "displayName": "12/01",
+                "value": "%m/%y"
+              },
+              {
+                "displayName": "Jan 01, 2010",
+                "value": "%b %d, %Y"
+              },
+              {
+                "displayName": "01/20/10",
+                "value": "%m/%d/%y"
+              },
+              {
+                "displayName": "20/01/10",
+                "value": "%d/%m/%y"
+              },
+              {
+                "displayName": "Jan 01",
+                "value": "%b %d"
+              },
+              {
+                "displayName": "01/20/10 12:00",
+                "value": "%m/%d/%y %H:%M"
+              },
+              {
+                "displayName": "Jan 01 12:00",
+                "value": "%b %d, %H:%M"
+              },
+              {
+                "displayName": "12:00",
+                "value": "%H:%M" 
+              },
+              {
+                "displayName": "Thu Jan 20",
+                "value": "%a %b %d"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "suppressDefaultTitle": true
+}
